@@ -1,0 +1,132 @@
+{
+  "name": "script-box",
+  "displayName": "script-box",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "script-box.refresh",
+        "title": "Refresh Scripts",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "script-box.addScript",
+        "title": "添加脚本",
+        "icon": "$(add)"
+      },
+      {
+        "command": "script-box.editScript",
+        "title": "编辑脚本",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "script-box.deleteScript",
+        "title": "删除脚本",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "script-box.renameScript",
+        "title": "重命名"
+      },
+      {
+        "command": "script-box.runScript",
+        "title": "运行脚本",
+        "icon": "$(play)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "package-explorer",
+          "title": "Package Explorer",
+          "icon": "$(beaker)"
+        }
+      ]
+    },
+    "views": {
+      "package-explorer": [
+        {
+          "id": "scriptBox",
+          "name": "Script Box",
+          "icon": "$(file-code)"
+        }
+      ]
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "script-box.runScript",
+          "group": "navigation",
+          "when": "resourceExtname == .js"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "script-box.addScript",
+          "when": "view == scriptBox",
+          "group": "navigation"
+        },
+        {
+          "command": "script-box.refresh",
+          "when": "view == scriptBox",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "script-box.runScript",
+          "when": "view == scriptBox && viewItem == script",
+          "group": "inline"
+        },
+        {
+          "command": "script-box.deleteScript",
+          "when": "view == scriptBox && viewItem == script",
+          "group": "2_edit"
+        },
+        {
+          "command": "script-box.renameScript",
+          "when": "view == scriptBox && viewItem == script",
+          "group": "2_edit"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpmSsese run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.91.0",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "esbuild": "^0.21.5",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0"
+  }
+}
