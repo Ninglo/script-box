@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
+
+const fs = vscode.workspace.fs
 
 export class ScriptTreeItem extends vscode.TreeItem {
     iconPath = new vscode.ThemeIcon('file')
@@ -19,7 +20,7 @@ export class ScriptTreeDataProvider implements vscode.TreeDataProvider<ScriptTre
     private _onDidChangeTreeData: vscode.EventEmitter<ScriptTreeItem | undefined | null | void> = new vscode.EventEmitter<ScriptTreeItem | undefined | null | void>();
     readonly onDidChangeTreeData: vscode.Event<ScriptTreeItem | undefined | null | void> = this._onDidChangeTreeData.event;
 
-    constructor(private workspaceRoot: string) { }
+    constructor(private workspaceRoot: vscode.Uri) { }
 
     refresh(): void {
         this._onDidChangeTreeData.fire();
@@ -38,9 +39,9 @@ export class ScriptTreeDataProvider implements vscode.TreeDataProvider<ScriptTre
         return Promise.resolve(this.getScripts(this.workspaceRoot));
     }
 
-    private getScripts(dir: string): ScriptTreeItem[] {
-        const scripts = fs.readdirSync(dir);
-        return scripts.map(script => {
+    private async getScripts(dir: vscode.Uri): Promise<ScriptTreeItem[]> {
+        const scripts = await fs.readDirectory(dir);
+        return scripts.map(([script]) => {
             const item = new ScriptTreeItem(
                 script,
                 vscode.TreeItemCollapsibleState.None,
