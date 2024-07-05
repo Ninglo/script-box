@@ -2,11 +2,11 @@ import * as vscode from 'vscode';
 import * as vm from 'vm';
 import { ScriptTreeDataProvider, ScriptTreeItem } from './scriptTreeView';
 
-const Uri = vscode.Uri
-const fs = vscode.workspace.fs
+const Uri = vscode.Uri;
+const fs = vscode.workspace.fs;
 
 export async function activate(context: vscode.ExtensionContext) {
-	context.globalStorageUri
+	context.globalStorageUri;
 	const scriptsDir = vscode.Uri.joinPath(context.globalStorageUri, 'scripts');
 	await fs.createDirectory(scriptsDir);
 
@@ -21,9 +21,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.editScript', async (scriptPath: string) => {
-		const filePath = Uri.joinPath(scriptsDir, scriptPath)
-		const document = await vscode.workspace.openTextDocument(filePath)
-		await vscode.window.showTextDocument(document)
+		const filePath = Uri.joinPath(scriptsDir, scriptPath);
+		const document = await vscode.workspace.openTextDocument(filePath);
+		await vscode.window.showTextDocument(document);
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.deleteScript', async (item: ScriptTreeItem) => {
@@ -33,16 +33,16 @@ export async function activate(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.runScript', async (item?: ScriptTreeItem) => {
-		let code = ''
+		let code = '';
 		if (item) {
-			const unit8Array = await fs.readFile(Uri.joinPath(scriptsDir, item.label))
-			code = new TextDecoder().decode(unit8Array)
+			const unit8Array = await fs.readFile(Uri.joinPath(scriptsDir, item.label));
+			code = new TextDecoder().decode(unit8Array);
 		} else {
 			const editor = vscode.window.activeTextEditor;
 			if (editor) {
 				code = editor.document.getText();
 			} else {
-				return
+				return;
 			}
 		}
 
@@ -51,9 +51,9 @@ export async function activate(context: vscode.ExtensionContext) {
 			const context = vm.createContext({ vscode });
 			script.runInContext(context);
 
-			console.log(context)
+			console.log(context);
 		} catch (error) {
-			const errorMsg = error instanceof Error ? error.message : String(error)
+			const errorMsg = error instanceof Error ? error.message : String(error);
 			vscode.window.showErrorMessage(`执行脚本时出错: ${errorMsg}`);
 		}
 	}));
@@ -69,10 +69,10 @@ export async function activate(context: vscode.ExtensionContext) {
 	const treeDataProvider = new ScriptTreeDataProvider(scriptsDir);
 	const treeView = vscode.window.createTreeView('scriptBox', { treeDataProvider });
 	treeView.onDidChangeSelection(async e => {
-		const filePath = Uri.joinPath(scriptsDir, e.selection[0].label)
-		const document = await vscode.workspace.openTextDocument(filePath)
-		await vscode.window.showTextDocument(document)
-	})
+		const filePath = Uri.joinPath(scriptsDir, e.selection[0].label);
+		const document = await vscode.workspace.openTextDocument(filePath);
+		await vscode.window.showTextDocument(document);
+	});
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.refresh', () => treeDataProvider.refresh()));
 }
 

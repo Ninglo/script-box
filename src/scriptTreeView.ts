@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 
-const fs = vscode.workspace.fs
+const fs = vscode.workspace.fs;
 
 export class ScriptTreeItem extends vscode.TreeItem {
-    iconPath = new vscode.ThemeIcon('file')
+    iconPath = new vscode.ThemeIcon('file');
 
     constructor(
         public readonly label: string,
@@ -50,8 +50,8 @@ export class ScriptTreeDataProvider implements vscode.TreeDataProvider<ScriptTre
                     title: '',
                     arguments: [script]
                 }
-            )
-            return item
+            );
+            return item;
         });
     }
 }

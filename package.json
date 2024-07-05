@@ -1,6 +1,7 @@
 {
   "name": "script-box",
   "displayName": "script-box",
+  "publisher": "ninglo",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -103,12 +104,13 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpmSsese run package",
+    "vscode:prepublish": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
     "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "package": "pnpm vsce package --no-dependencies",
+    "publish": "pnpm vsce publish --no-dependencies",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
