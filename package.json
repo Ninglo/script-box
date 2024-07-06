@@ -1,12 +1,18 @@
 {
   "name": "script-box",
-  "displayName": "script-box",
+  "displayName": "Script Box",
   "publisher": "ninglo",
-  "description": "",
-  "version": "0.0.1",
+  "description": "This extension provides a script box in Visual Studio Code, allowing users to create, delete, rename, and run scripts directly in the editor.",
+  "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ninglo/script-box.git"
+  },
+  "icon": "./logo.png",
   "engines": {
     "vscode": "^1.91.0"
   },
+  "license": "MIT",
   "categories": [
     "Other"
   ],
@@ -19,7 +25,8 @@
       {
         "command": "script-box.refresh",
         "title": "Refresh Scripts",
-        "icon": "$(refresh)"
+        "icon": "$(refresh)",
+        "enablement": "false"
       },
       {
         "command": "script-box.new-script",
@@ -29,16 +36,19 @@
       {
         "command": "script-box.new-folder",
         "title": "New Folder...",
-        "icon": "$(new-folder)"
+        "icon": "$(new-folder)",
+        "enablement": "false"
       },
       {
         "command": "script-box.deleteScript",
         "title": "Delete",
-        "icon": "$(trash)"
+        "icon": "$(trash)",
+        "enablement": "view == script-box"
       },
       {
         "command": "script-box.renameScript",
-        "title": "Rename..."
+        "title": "Rename...",
+        "enablement": "view == script-box"
       },
       {
         "command": "script-box.runScript",
@@ -50,19 +60,19 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "package-explorer",
-          "title": "Package Explorer",
-          "icon": "$(beaker)"
+          "id": "script-box-container",
+          "title": "Script Box Container",
+          "icon": "$(archive)"
         }
       ]
     },
     "views": {
-      "package-explorer": [
+      "script-box-container": [
         {
           "id": "script-box",
           "name": "Script Box",
           "type": "tree",
-          "icon": "$(file-code)"
+          "icon": "./logo.svg"
         }
       ]
     },
@@ -79,11 +89,6 @@
           "command": "script-box.new-script",
           "when": "view == script-box",
           "group": "navigation"
-        },
-        {
-          "command": "script-box.new-folder",
-          "when": "view == script-box",
-          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -93,14 +98,14 @@
           "group": "inline"
         },
         {
-          "command": "script-box.deleteScript",
-          "when": "view == script-box && viewItem == file",
-          "group": "2_edit"
-        },
-        {
           "command": "script-box.renameScript",
           "when": "view == script-box && viewItem == file",
-          "group": "2_edit"
+          "group": "1_edit"
+        },
+        {
+          "command": "script-box.deleteScript",
+          "when": "view == script-box && viewItem == file",
+          "group": "1_edit"
         }
       ]
     }

@@ -19,7 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	const provider = new ScriptBoxProvider(scriptsDir);
 
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.new-script', async () => {
-		const name = await vscode.window.showInputBox({ prompt: '脚本名称' });
+		const name = await vscode.window.showInputBox({ prompt: 'Script name:' });
 		if (name) {
 			const filePath = Uri.joinPath(scriptsDir, name);
 			await fs.writeFile(filePath, new Uint8Array());
@@ -52,14 +52,14 @@ export async function activate(context: vscode.ExtensionContext) {
 			console.log(result.result);
 		} catch (error) {
 			const errorMsg = error instanceof Error ? error.message : String(error);
-			vscode.window.showErrorMessage(`执行脚本时出错: ${errorMsg}`);
+			vscode.window.showErrorMessage(`Error occured when execute script, error msg:\n${errorMsg}`);
 		}
 	}));
 
 	context.subscriptions.push(vscode.commands.registerCommand('script-box.renameScript', async (uri?: vscode.Uri) => {
 		if (!uri) { return; }
 
-		const newName = await vscode.window.showInputBox({ prompt: '新的脚本名称' });
+		const newName = await vscode.window.showInputBox({ prompt: 'New name of the script:' });
 		if (newName) {
 			fs.rename(uri, Uri.joinPath(scriptsDir, newName));
 			provider.refresh();
