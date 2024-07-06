@@ -22,28 +22,29 @@
         "icon": "$(refresh)"
       },
       {
-        "command": "script-box.addScript",
-        "title": "添加脚本",
-        "icon": "$(add)"
+        "command": "script-box.new-script",
+        "title": "New Script...",
+        "icon": "$(new-file)"
       },
       {
-        "command": "script-box.editScript",
-        "title": "编辑脚本",
-        "icon": "$(edit)"
+        "command": "script-box.new-folder",
+        "title": "New Folder...",
+        "icon": "$(new-folder)"
       },
       {
         "command": "script-box.deleteScript",
-        "title": "删除脚本",
+        "title": "Delete",
         "icon": "$(trash)"
       },
       {
         "command": "script-box.renameScript",
-        "title": "重命名"
+        "title": "Rename..."
       },
       {
         "command": "script-box.runScript",
-        "title": "运行脚本",
-        "icon": "$(play)"
+        "title": "Run",
+        "icon": "$(play)",
+        "enablement": "resourceExtname == .js || view == script-box"
       }
     ],
     "viewsContainers": {
@@ -58,8 +59,9 @@
     "views": {
       "package-explorer": [
         {
-          "id": "scriptBox",
+          "id": "script-box",
           "name": "Script Box",
+          "type": "tree",
           "icon": "$(file-code)"
         }
       ]
@@ -74,30 +76,30 @@
       ],
       "view/title": [
         {
-          "command": "script-box.addScript",
-          "when": "view == scriptBox",
+          "command": "script-box.new-script",
+          "when": "view == script-box",
           "group": "navigation"
         },
         {
-          "command": "script-box.refresh",
-          "when": "view == scriptBox",
+          "command": "script-box.new-folder",
+          "when": "view == script-box",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
           "command": "script-box.runScript",
-          "when": "view == scriptBox && viewItem == script",
+          "when": "view == script-box && viewItem == file",
           "group": "inline"
         },
         {
           "command": "script-box.deleteScript",
-          "when": "view == scriptBox && viewItem == script",
+          "when": "view == script-box && viewItem == file",
           "group": "2_edit"
         },
         {
           "command": "script-box.renameScript",
-          "when": "view == scriptBox && viewItem == script",
+          "when": "view == script-box && viewItem == file",
           "group": "2_edit"
         }
       ]
