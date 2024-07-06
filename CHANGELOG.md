@@ -4,6 +4,8 @@ All notable changes to the "script-box" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.0.3]
 
-- Initial release
+- Update README and add description
+- New Logo
+- Add License
