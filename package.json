@@ -2,7 +2,7 @@
   "name": "script-box",
   "displayName": "Script Box",
   "publisher": "ninglo",
-  "description": "This extension provides a script box in Visual Studio Code, allowing users to create, delete, rename, and run scripts directly in the editor.",
+  "description": "This extension provides a script box in Visual Studio Code, allowing users to run scripts directly in the editor.",
   "version": "0.0.3",
   "repository": {
     "type": "git",
